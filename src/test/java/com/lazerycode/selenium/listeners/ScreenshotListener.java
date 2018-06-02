@@ -1,11 +1,11 @@
 package com.lazerycode.selenium.listeners;
 
+import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunListener;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Augmenter;
-import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static com.lazerycode.selenium.DriverBase.getDriver;
 
-public class ScreenshotListener extends TestListenerAdapter {
+public class ScreenshotListener extends RunListener {
 
     private boolean createFile(File screenshot) {
         boolean fileCreated = false;
@@ -46,11 +46,11 @@ public class ScreenshotListener extends TestListenerAdapter {
     }
 
     @Override
-    public void onTestFailure(ITestResult failingTest) {
+    public void testFailure(Failure failure) {
         try {
             WebDriver driver = getDriver();
             String screenshotDirectory = System.getProperty("screenshotDirectory", "target/screenshots");
-            String screenshotAbsolutePath = screenshotDirectory + File.separator + System.currentTimeMillis() + "_" + failingTest.getName() + ".png";
+            String screenshotAbsolutePath = screenshotDirectory + File.separator + System.currentTimeMillis() + "_" + failure.getDescription().getMethodName() + ".png";
             File screenshot = new File(screenshotAbsolutePath);
             if (createFile(screenshot)) {
                 try {

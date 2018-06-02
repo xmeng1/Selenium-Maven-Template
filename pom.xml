@@ -44,7 +44,7 @@
         <!--Dependency Versions-->
         <selenium.version>3.12.0</selenium.version>
         <assertj-core.version>3.9.1</assertj-core.version>
-        <testng.version>6.14.3</testng.version>
+        <junit.version>4.12</junit.version>
         <query.version>1.2.0</query.version>
         <!--Plugin Versions-->
         <driver-binary-downloader-maven-plugin.version>1.0.17</driver-binary-downloader-maven-plugin.version>
@@ -81,9 +81,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -150,6 +150,13 @@
                         <configuration>
                             <parallel>methods</parallel>
                             <threadCount>${threads}</threadCount>
+                            <perCoreThreadCount>false</perCoreThreadCount>
+                            <properties>
+                                <property>
+                                    <name>listener</name>
+                                    <value>com.lazerycode.selenium.listeners.ScreenshotListener</value>
+                                </property>
+                            </properties>
                             <systemPropertyVariables>
                                 <browser>${browser}</browser>
                                 <screenshotDirectory>${project.build.directory}/screenshots</screenshotDirectory>
